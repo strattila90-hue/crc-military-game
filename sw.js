@@ -1,5 +1,5 @@
 // CRC PLAY – offline gyorsítótár (stale-while-revalidate). A cache neve megegyezik az index.html frissítő gombjáéval.
-const C='crc-play-v4',F=['./','index.html','manifest.webmanifest','ikon-192.png','ikon-512.png','ikon-maszkolhato.png','apple-touch-icon.png'];
+const C='crc-play-v3',F=['./','index.html','manifest.webmanifest','ikon-192.png','ikon-512.png','ikon-maszkolhato.png','apple-touch-icon.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>Promise.all(F.map(f=>c.add(f).catch(()=>{})))).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C&&x.startsWith('crc-play')).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{
