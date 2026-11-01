@@ -1,0 +1,17 @@
+{
+  "name": "CRC PLAY",
+  "short_name": "CRC PLAY",
+  "description": "Oldalnézetes tömegoszlatás és lázadás szimuláció.",
+  "lang": "hu",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#04193b",
+  "theme_color": "#04193b",
+  "prefer_related_applications": false,
+  "icons": [
+    { "src": "icons/ikon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/ikon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/ikon-maszkolhato.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
