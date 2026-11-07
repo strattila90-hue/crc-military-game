@@ -54,6 +54,12 @@ jobs:
       - name: Rename
         run: cp android/app/build/outputs/apk/debug/app-debug.apk CRC-PLAY.apk
 
+      - name: Read app version
+        id: ver
+        run: |
+          V=$(grep -o "VER='[^']*'" index.html | head -1 | cut -d"'" -f2)
+          echo "v=$V" >> "$GITHUB_OUTPUT"
+
       - uses: actions/upload-artifact@v4
         with:
           name: CRC-PLAY-apk
@@ -63,7 +69,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: latest
-          name: CRC PLAY – legfrissebb APK
-          body: Telepítsd Androidra (Ismeretlen források engedélyezése szükséges).
+          name: CRC PLAY – legfrissebb APK (${{ steps.ver.outputs.v }})
+          body: "Telepítsd Androidra (Ismeretlen források engedélyezése szükséges). VER=${{ steps.ver.outputs.v }}"
           files: CRC-PLAY.apk
           make_latest: true
