@@ -1,0 +1,69 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Collect web files
+        run: |
+          mkdir -p www
+          cp index.html sw.js manifest.webmanifest logo.svg ikon-192.png ikon-512.png ikon-maszkolhato.png apple-touch-icon.png www/
+
+      - name: Add Android platform
+        run: npx cap add android
+
+      - name: App icon
+        run: npx capacitor-assets generate --android --iconBackgroundColor '#0b1a36' --iconBackgroundColorDark '#0b1a36'
+
+      - name: Landscape and fullscreen
+        run: |
+          M=android/app/src/main/AndroidManifest.xml
+          sed -i 's/<activity/<activity android:screenOrientation="sensorLandscape"/' "$M"
+          S=android/app/src/main/res/values/styles.xml
+          sed -i 's#<style name="AppTheme.NoActionBar" parent="Theme.AppCompat.DayNight.NoActionBar">#&\n        <item name="android:windowFullscreen">true</item>#' "$S"
+
+      - name: Sync
+        run: npx cap sync android
+
+      - name: Build debug APK
+        working-directory: android
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Rename
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk CRC-PLAY.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CRC-PLAY-apk
+          path: CRC-PLAY.apk
+
+      - name: Publish release (letölthető APK)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: CRC PLAY – legfrissebb APK
+          body: Telepítsd Androidra (Ismeretlen források engedélyezése szükséges).
+          files: CRC-PLAY.apk
+          make_latest: true

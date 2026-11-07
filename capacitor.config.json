@@ -1,0 +1,7 @@
+{
+  "appId": "hu.crcplay.app",
+  "appName": "CRC PLAY",
+  "webDir": "www",
+  "server": { "androidScheme": "https" },
+  "backgroundColor": "#05080e"
+}
