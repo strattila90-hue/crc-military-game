@@ -30,6 +30,9 @@ jobs:
         run: |
           mkdir -p www
           cp index.html sw.js manifest.webmanifest logo.svg ikon-192.png ikon-512.png ikon-maszkolhato.png apple-touch-icon.png www/
+          # frissítési csatorna: az app arról az ágról frissül, amelyikről az APK készült
+          sed -i "s/,CH='main';/,CH='${GITHUB_REF_NAME}';/" www/index.html
+          grep -o "CH='[^']*'" www/index.html | head -1
 
       - name: Add Android platform
         run: npx cap add android
