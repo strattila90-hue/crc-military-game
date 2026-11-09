@@ -28,6 +28,8 @@ két oldal, **Oszlató (MH)** és **Tüntető**, plusz szabad mód. A felhaszná
   - A letöltött verzió `localStorage`-be kerül (`crc-ota-html`, `crc-ota-ver`), a boot szkript ezt tölti be, ha újabb a beépítettnél.
   - Hibás letöltés esetén automatikusan visszaáll a beépítettre (`crc-ota-pend`/`crc-ota-bad`).
   - Az appban nincs service worker.
+- **APK aláírás:** állandó kulcs (Actions cache `crc-play-debug-keystore-v1`, vagy az `ANDROID_KEYSTORE_B64` secret). A `build.gradle`-ben `signingConfigs.debug` mutat rá, és a build ellenőrzi. Kulcsot ne commitolj a repóba.
+- **Frissítési csatorna:** `CH` a boot szkriptben. A workflow az ág nevére állítja, így az előzetes APK a saját ágáról frissül.
 - **Webes változat:** a `sw.js` stale-while-revalidate gyorsítótárat használ (`crc-play-v3`).
 
 ## Ellenőrzés változtatás után

@@ -27,5 +27,14 @@ A `.github/workflows/android.yml` minden pushra megépíti az APK-t (GitHub ▸ 
 A `main` ágról készült build a „latest” kiadásba is felkerül, a kiadás leírásában a `VER=...` sor az app verziója.
 Új APK-ra csak akkor van szükség, ha az Android-héj változik (pl. ikon, engedélyek, Capacitor-frissítés).
 
+## Aláírás
+Minden APK ugyanazzal a kulccsal van aláírva, így az új APK rátelepíthető a régire.
+- A kulcs a GitHub Actions cache-ében van (az első build hozza létre), vagy ha megadod,
+  az `ANDROID_KEYSTORE_B64` GitHub Secretből jön (base64-be kódolt keystore, jelszó/alias: `android`/`androiddebugkey`).
+- A build elbukik, ha az APK nem ezzel a kulccsal készült.
+- Ha a cache kiürül (kb. 7 nap használat nélkül), új kulcs készül, és egyszer újra kell telepíteni.
+  Ezt a Secret megadása megszünteti.
+- A 2026.11.09-7 előtti APK-k véletlen kulccsal készültek: ezeket egyszer törölni kell az új telepítése előtt.
+
 ## Telepítés
 Android ▸ APK megnyitása ▸ „Ismeretlen források engedélyezése” ▸ Telepítés.
