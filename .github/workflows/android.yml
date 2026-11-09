@@ -2,7 +2,7 @@ name: Build Android APK
 
 on:
   push:
-    branches: [main, master]
+    branches: ['**']
   workflow_dispatch:
 
 permissions:
@@ -35,12 +35,16 @@ jobs:
         run: npx cap add android
 
       - name: App icon
-        run: npx capacitor-assets generate --android --iconBackgroundColor '#0b1a36' --iconBackgroundColorDark '#0b1a36'
+        run: |
+          mkdir -p assets
+          cp icon-only.png icon-foreground.png icon-background.png assets/
+          npx capacitor-assets generate --android --iconBackgroundColor '#0b1a36' --iconBackgroundColorDark '#0b1a36'
 
       - name: Landscape and fullscreen
         run: |
           M=android/app/src/main/AndroidManifest.xml
           sed -i 's/<activity/<activity android:screenOrientation="sensorLandscape"/' "$M"
+          grep -q 'android.permission.VIBRATE' "$M" || sed -i 's#</manifest>#    <uses-permission android:name="android.permission.VIBRATE" />\n</manifest>#' "$M"
           S=android/app/src/main/res/values/styles.xml
           sed -i 's#<style name="AppTheme.NoActionBar" parent="Theme.AppCompat.DayNight.NoActionBar">#&\n        <item name="android:windowFullscreen">true</item>#' "$S"
 
@@ -66,6 +70,7 @@ jobs:
           path: CRC-PLAY.apk
 
       - name: Publish release (letölthető APK)
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: latest
