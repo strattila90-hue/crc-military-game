@@ -18,7 +18,9 @@ két oldal, **Oszlató (MH)** és **Tüntető**, plusz szabad mód. A felhaszná
 - **Tüntetők:** procedurálisan rajzolja a `human(P,pose,wf,z)` függvény.
   - Valósághű, kb. 7,5 fejnyi arány. **Nem cuki/chibi stílus**, a felhasználó ezt kifejezetten kérte.
   - A `pose` 1 = dobás, a `wf` 0..3 = járásfázis (lustán generálva, `CP[i].w`).
+- **Tüntetők stílusa:** festett hatás, körvonal nélkül, hengeres árnyékolás (`seg`), a végén `paint()` zaj. Igazodjon a katonák festett sprite-jaihoz. A járásnak 8 fázisa van, térdhajlítással; a lejjebb lévő boka mindig a talajon van.
 - **Katonák:** festett sprite-ok (`IM.mh`, `gaitSpr`).
+- **Civil autók:** a `carImg(o,kiégett)` gyorsítótárazott képet rajzol (`CARC`), a `drawCar` csak kirakja. Valós arány: kb. 4,3 m × 1,45 m, ahol 1 m ≈ 60 px (sc=1). Típusok: `o.ty` 0 = szedán, 1 = ferdehátú, 2 = kombi.
 
 ## Verzió és kiadás
 - **Verziószám:** egyetlen helyen van, az `index.html` elején (`var VER='...'`). **Minden változtatásnál növeld**, különben az app nem frissül.
