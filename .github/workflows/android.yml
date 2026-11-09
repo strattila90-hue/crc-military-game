@@ -11,6 +11,9 @@ permissions:
 jobs:
   apk:
     runs-on: ubuntu-latest
+    env:
+      # opcionális: base64-be kódolt keystore GitHub Secretként (Settings ▸ Secrets ▸ Actions)
+      KS_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
     steps:
       - uses: actions/checkout@v4
 
@@ -54,9 +57,34 @@ jobs:
       - name: Sync
         run: npx cap sync android
 
+      # Állandó aláíró kulcs: enélkül minden build új kulcsot kap, és az Android
+      # nem engedi rátelepíteni az új APK-t a régire.
+      - name: Signing key from cache
+        if: env.KS_B64 == ''
+        uses: actions/cache@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: crc-play-debug-keystore-v1
+
+      - name: Signing key (secret / create once)
+        run: |
+          mkdir -p ~/.android
+          if [ -n "$KS_B64" ]; then
+            echo "$KS_B64" | base64 -d > ~/.android/debug.keystore
+            echo "Kulcs: GitHub Secret"
+          elif [ ! -f ~/.android/debug.keystore ]; then
+            keytool -genkeypair -keystore ~/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 12000 -dname "CN=CRC PLAY Debug,O=CRC PLAY,C=HU"
+            echo "Kulcs: új (a cache elmenti a következő buildekhez)"
+          else
+            echo "Kulcs: cache-ből"
+          fi
+
       - name: Build debug APK
         working-directory: android
         run: ./gradlew assembleDebug --no-daemon
+
+      - name: Show signing certificate
+        run: keytool -printcert -jarfile android/app/build/outputs/apk/debug/app-debug.apk | grep -E "Owner|SHA256:"
 
       - name: Rename
         run: cp android/app/build/outputs/apk/debug/app-debug.apk CRC-PLAY.apk
