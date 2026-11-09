@@ -24,7 +24,7 @@ két oldal, **Oszlató (MH)** és **Tüntető**, plusz szabad mód. A felhaszná
 - **Verziószám:** egyetlen helyen van, az `index.html` elején (`var VER='...'`). **Minden változtatásnál növeld**, különben az app nem frissül.
 - **APK:** a `.github/workflows/android.yml` minden pushra megépíti. A „latest” kiadás csak a `main`/`master` ágról frissül.
 - **OTA frissítés az APK-ban:**
-  - A főmenü Frissítés gombja letölti a `main` ágon lévő `index.html`-t (raw.githubusercontent, tartalék: GitHub Pages).
+  - A főmenü Frissítés gombja letölti a csatorna ágán (`CH`, alapból `main`) lévő `index.html`-t (raw.githubusercontent; `main` esetén tartalék: GitHub Pages).
   - A letöltött verzió `localStorage`-be kerül (`crc-ota-html`, `crc-ota-ver`), a boot szkript ezt tölti be, ha újabb a beépítettnél.
   - Hibás letöltés esetén automatikusan visszaáll a beépítettre (`crc-ota-pend`/`crc-ota-bad`).
   - Az appban nincs service worker.
