@@ -78,3 +78,16 @@ jobs:
           body: "Telepítsd Androidra (Ismeretlen források engedélyezése szükséges). VER=${{ steps.ver.outputs.v }}"
           files: CRC-PLAY.apk
           make_latest: true
+
+      - name: Publish preview (letölthető APK más ágakról)
+        if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: preview
+          target_commitish: ${{ github.sha }}
+          name: CRC PLAY – előzetes APK (${{ steps.ver.outputs.v }})
+          body: "Előzetes (teszt) build a(z) ${{ github.ref_name }} ágról. Telepítsd Androidra (Ismeretlen források engedélyezése szükséges). VER=${{ steps.ver.outputs.v }}"
+          files: CRC-PLAY.apk
+          prerelease: true
+          make_latest: false
+          overwrite_files: true
