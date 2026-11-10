@@ -21,6 +21,10 @@ két oldal, **Oszlató (MH)** és **Tüntető**, plusz szabad mód. A felhaszná
     - Gombkiosztás: a `BT` tábla, a cooldownok a `CD`-ben, a lőszer az `am`-ben.
 - **Ikonok:** saját SVG piktogramkészlet (`<symbol id="i-…">` a `<body>` elején), használat: `<svg class="ic"><use href="#i-név"/></svg>`, JS-ben `ico(név)`. Emojit ne használj a felületen.
 - **Pajzs/vízágyú:** `shR` = elöl, `shO` = fej fölött (felülről jövő találat ellen: `shd(s,d,rear,air)`), `shS` = eltolás. Vízágyú: joystick (`#joy`) → `nzdx/nzdy` analóg, `wj.t=10` mp, a tartály 24/mp-cel fogy.
+- **Gázálarc / poroltó:** `mk` (fent/lent) + `mkp` (felvétel 0..1, kb. 1,2 mp); gázálarccal a gáz nem hat a katonákra, a fáradás ×1,4. Poroltó: az `extF()` kiválaszt egy katonát (`s.xt={o:tűz,t}`), az `extUpd()` odafuttatja és oltja (`f.t` csökken). Rajz: `drawGear()`.
+- **Tömeg-viselkedés:** a gázgránátot visszadobják (`g.tb` jelöli, ezt nem dobják újra), a sebesültet kivonszolják (`c.drag` a mentő, `v.dg`/`v.gone` a sebesült).
+- **Táblás figurák tükrözve:** tükrözött kirakásnál a `P.M` (`mt:1`) változatot használja, hogy a felirat olvasható maradjon.
+- **Gombméret:** érintési cél min. kb. 44 px. Alacsony képernyőn (`max-height:500px`) az oldalsáv két oszlopos ikonrács.
 - **Tüntetők:** procedurálisan rajzolja a `human(P,pose,wf,z)` függvény.
   - Valósághű, kb. 7,5 fejnyi arány. **Nem cuki/chibi stílus**, a felhasználó ezt kifejezetten kérte.
   - A `pose` 1 = dobás, a `wf` 0..7 = járásfázis (lustán generálva, `CP[i].w`).
