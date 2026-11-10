@@ -10,11 +10,17 @@ két oldal, **Oszlató (MH)** és **Tüntető**, plusz szabad mód. A felhaszná
   - `<head>` eleje: indító (boot) szkript, `var VER='ÉÉÉÉ.HH.NN-n'`, plusz OTA-betöltés.
   - `<style>`: a játék-HUD, a főmenü (`#home`, `.pn`, `.tl`…), az alsó vezérlősáv (`.bb`, `.grp`) és az oldalsó akciógombok (`.rail .ab`).
   - `AU`: szintetizált hangok. Az `AU.s(név,x,v)` hívás egyben rezgést is kelt (`HV` tábla, `hap()`).
+    - Térhatás: a `out(x,v)` a kamerától mért távolsággal halkít és tompít (lowpass), és zengésbe küld (konvolúciós utózengés + házfal-visszhang).
+    - Az `x=null` felület-hang: nincs térhatás. A `UI` tábla sorolja fel ezeket.
+    - Lejátszásonként véletlen hangmagasság (`PV`) és hangerő. Emberi hang a `vox()`: formánsos magánhangzók.
+    - A `loop()` hangjai LFO-val hullámzanak. A sziréna magyar rendőrségi kéthangú.
   - `App`: telepítés, megosztás, frissítés/OTA (`check`, `update`, `otaUpd`, `remoteVer`, `grab`).
   - `G`: a játék.
     - Állapot: `S` = katonák, `C` = tüntetők, `PJ` = lövedékek, `PT` = részecskék, `PR` = tárgyak, `BR` = barikádok, `FR` = tűz, `GS` = gáz, `SM` = füst.
     - Fő függvények: `up(dt)` (szimuláció), `draw()`, `act(k)` (eszközök), `land(p)` (becsapódás).
     - Gombkiosztás: a `BT` tábla, a cooldownok a `CD`-ben, a lőszer az `am`-ben.
+- **Ikonok:** saját SVG piktogramkészlet (`<symbol id="i-…">` a `<body>` elején), használat: `<svg class="ic"><use href="#i-név"/></svg>`, JS-ben `ico(név)`. Emojit ne használj a felületen.
+- **Pajzs/vízágyú:** `shR` = elöl, `shO` = fej fölött (felülről jövő találat ellen: `shd(s,d,rear,air)`), `shS` = eltolás. Vízágyú: joystick (`#joy`) → `nzdx/nzdy` analóg, `wj.t=10` mp, a tartály 24/mp-cel fogy.
 - **Tüntetők:** procedurálisan rajzolja a `human(P,pose,wf,z)` függvény.
   - Valósághű, kb. 7,5 fejnyi arány. **Nem cuki/chibi stílus**, a felhasználó ezt kifejezetten kérte.
   - A `pose` 1 = dobás, a `wf` 0..7 = járásfázis (lustán generálva, `CP[i].w`).
