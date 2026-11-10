@@ -17,7 +17,10 @@ két oldal, **Oszlató (MH)** és **Tüntető**, plusz szabad mód. A felhaszná
     - Gombkiosztás: a `BT` tábla, a cooldownok a `CD`-ben, a lőszer az `am`-ben.
 - **Tüntetők:** procedurálisan rajzolja a `human(P,pose,wf,z)` függvény.
   - Valósághű, kb. 7,5 fejnyi arány. **Nem cuki/chibi stílus**, a felhasználó ezt kifejezetten kérte.
-  - A `pose` 1 = dobás, a `wf` 0..3 = járásfázis (lustán generálva, `CP[i].w`).
+  - A `pose` 1 = dobás, a `wf` 0..7 = járásfázis (lustán generálva, `CP[i].w`).
+  - `P.carry`: 1 = nemzeti zászló, 2 = tábla (`P.sign` felirat), 3 = jelzőfáklya. Ilyenkor magasabb a vászon (250 px), és a `CP[i].k` ezzel arányosan nagyobb.
+  - Álló tömegben skandálás: ütemes, hullámszerű ökölemelés (az `f[1]` kockát használja).
+- **Főmenü tömegjelenet:** a `menuArt()` rajzolja, három mélységi sorban (szűrővel sötétítve), ellenfénnyel, füsttel és fáklyafénnyel. A szereplők a `menuArt.P` tömbben vannak.
 - **Tüntetők stílusa:** festett hatás, körvonal nélkül, hengeres árnyékolás (`seg`), a végén `paint()` zaj. Igazodjon a katonák festett sprite-jaihoz. A járásnak 8 fázisa van, térdhajlítással; a lejjebb lévő boka mindig a talajon van.
 - **Katonák:** festett sprite-ok (`IM.mh`, `gaitSpr`).
 - **Civil autók:** a `carImg(o,kiégett)` gyorsítótárazott képet rajzol (`CARC`), a `drawCar` csak kirakja. Valós arány: kb. 4,3 m × 1,45 m, ahol 1 m ≈ 60 px (sc=1). Típusok: `o.ty` 0 = szedán, 1 = ferdehátú, 2 = kombi.
